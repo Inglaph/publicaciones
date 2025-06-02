@@ -42,4 +42,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // Relación con la tabla posts
+    // Un usuario puede tener muchos posts
+    // Si se elimina un usuario, se eliminan todos los posts relacionados
+    public function posts()
+    {
+        // hasMany es una relación directa de belongsTo que está definida en el modelo Post
+        // hasMany se usa para indicar que un usuario puede tener muchos posts
+        return $this->hasMany(Post::class);
+    }
 }
