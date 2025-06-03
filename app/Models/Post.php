@@ -9,7 +9,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['body'];
+    protected $fillable = ['body', 'title', 'user_id'];
 
     // Relación con la tabla users
     // Un post pertenece a un usuario
