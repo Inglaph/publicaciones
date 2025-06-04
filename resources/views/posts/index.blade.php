@@ -9,6 +9,12 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-800">
+                    <!-- Session Status -->
+                    <x-auth-session-status class="mb-4" :status="session('status')" />
+
+                    <!-- Validation Errors -->
+                    <x-auth-validations-errors class="mb-4" :errors="$errors" />
+
                     <!-- Formulario para crear nuevo post -->
                     <form action="{{ route('posts.store') }}" method="POST" class="mb-6">
                         @csrf
