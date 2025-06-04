@@ -13,22 +13,38 @@ class PostController extends Controller
         return view('posts.index', compact('posts'));
     }
 
+    /**
+     * Almacena un nuevo post en la base de datos
+     *
+     * Este método maneja la creación de nuevos posts en el sistema. Sigue estos pasos:
+     * 1. Verifica que el usuario esté autenticado
+     * 2. Valida los datos del formulario
+     * 3. Crea el post asociado al usuario actual
+     * 4. Redirecciona con mensaje de éxito
+     *
+     * @param Request $request Contiene los datos del formulario (title y content)
+     * @return \Illuminate\Http\RedirectResponse Redirecciona al dashboard con mensaje de éxito
+     */
     public function store(Request $request)
     {
+        // Verificar autenticación del usuario
         if (!auth()->check()) {
             return redirect()->route('login');
         }
+
+        // Validar los datos del formulario
         $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'title' => 'required|string|max:255',    // Título requerido, máximo 255 caracteres
+            'content' => 'required|string',          // Contenido requerido
         ]);
 
-        $post = Post::create([
+        // Crear el post asociado al usuario actual
+        $request->user()->posts()->create([
             'title' => $request->title,
             'body' => $request->content,
-            'user_id' => auth()->id(),
         ]);
 
+        // Redireccionar con mensaje de éxito
         return redirect()->route('dashboard')->with('success', 'Post creado exitosamente');
     }
 

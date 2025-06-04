@@ -12,6 +12,13 @@
                     <!-- Session Status -->
                     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+                    <!-- Success Message -->
+                    @if (session('success'))
+                    <div class="mb-4 font-medium text-sm text-green-600">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+
                     <!-- Validation Errors -->
                     <x-auth-validations-errors class="mb-4" :errors="$errors" />
 
@@ -36,7 +43,7 @@
                         @foreach($posts as $post)
                         <div class="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow">
                             <h3 class="text-lg font-semibold text-gray-900">{{ $post->title }}</h3>
-                            <p class="text-gray-700 mt-2">{{ $post->content }}</p>
+                            <p class="text-gray-700 mt-2">{{ $post->body }}</p>
                             <div class="mt-3 flex space-x-2">
                                 <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline">
                                     @csrf
@@ -95,7 +102,7 @@
             const currentPost = post.find(p => p.id === id);
 
             document.getElementById('edit_title').value = currentPost.title;
-            document.getElementById('edit_content').value = currentPost.content;
+            document.getElementById('edit_content').value = currentPost.body;
             form.action = `/posts/${id}`;
 
             modal.classList.remove('hidden');
